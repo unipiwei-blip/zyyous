@@ -688,3 +688,93 @@ ul { list-style: none; }
   }
   .fab-menu a.active { background: var(--red); color: #fff; border-color: var(--red); font-weight: 600; }
 }
+
+/* ===== 首屏四季轮播背景 ===== */
+.hero-slide {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 1.6s ease;
+}
+.hero-slide.on { opacity: 1; }
+
+/* ===== 区块标题右上角"更多资讯" ===== */
+.section-head { position: relative; }
+.head-more {
+  display: inline-block;
+  margin-top: 14px;
+  font-size: 14px;
+  color: var(--red);
+  font-weight: 600;
+  letter-spacing: 1px;
+  border-bottom: 1px dashed rgba(186,39,46,.4);
+  padding-bottom: 2px;
+  transition: color .2s;
+}
+.head-more:hover { color: var(--red-deep); }
+@media (min-width: 961px) {
+  .head-more { position: absolute; right: 0; bottom: 6px; margin-top: 0; }
+}
+
+/* ===== 商城弹窗（扫码直接购 / 合作入驻） ===== */
+.btn { font-family: inherit; }
+.modal-mask {
+  position: fixed; inset: 0;
+  background: rgba(15, 12, 8, .62);
+  backdrop-filter: blur(3px);
+  z-index: 200;
+  display: flex; align-items: center; justify-content: center;
+  padding: 24px;
+}
+.modal-mask[hidden] { display: none; }
+.modal-box {
+  position: relative;
+  background: #fff;
+  border-radius: 20px;
+  padding: 40px 44px 34px;
+  max-width: 340px;
+  width: 100%;
+  text-align: center;
+  box-shadow: 0 24px 60px rgba(0,0,0,.35);
+  animation: modalIn .28s ease;
+}
+@keyframes modalIn {
+  from { transform: translateY(18px) scale(.96); opacity: 0; }
+  to   { transform: translateY(0) scale(1); opacity: 1; }
+}
+.modal-close {
+  position: absolute; top: 12px; right: 14px;
+  width: 32px; height: 32px;
+  border: none; border-radius: 50%;
+  background: var(--cream-2);
+  color: var(--ink-soft);
+  font-size: 14px;
+  cursor: pointer;
+}
+.modal-close:hover { background: var(--red-soft); color: var(--red); }
+.modal-view h3 { font-size: 18px; letter-spacing: 2px; color: var(--ink); margin-bottom: 18px; }
+.modal-view img {
+  width: 210px; height: 210px;
+  object-fit: cover;
+  border-radius: 14px;
+  margin: 0 auto 14px;
+  border: 1px solid var(--line);
+}
+.modal-view p { font-size: 13.5px; color: var(--ink-soft); line-height: 1.9; }
+.modal-phone-icon {
+  width: 64px; height: 64px;
+  border-radius: 50%;
+  background: var(--red-soft);
+  font-size: 30px;
+  display: flex; align-items: center; justify-content: center;
+  margin: 0 auto 14px;
+}
+.modal-phone-num {
+  display: block;
+  font-size: 27px;
+  font-weight: 800;
+  color: var(--red);
+  letter-spacing: 1px;
+  margin-bottom: 12px;
+}

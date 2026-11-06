@@ -92,6 +92,41 @@
     });
   }
 
+  // 首屏四季背景轮播（春夏秋冬淡入淡出）
+  var seasonSlides = document.querySelectorAll(".hero-slide");
+  if (seasonSlides.length > 1) {
+    var sCur = 0, sTimer;
+    function showSeason(i) {
+      sCur = (i + seasonSlides.length) % seasonSlides.length;
+      seasonSlides.forEach(function (s, k) { s.classList.toggle("on", k === sCur); });
+    }
+    sTimer = setInterval(function () { showSeason(sCur + 1); }, 5200);
+  }
+
+  // 商城弹窗：扫码直接购 / 合作入驻
+  var mask = document.getElementById("modal-mask");
+  if (mask) {
+    var views = mask.querySelectorAll(".modal-view");
+    function openModal(key) {
+      views.forEach(function (v) { v.hidden = (v.id !== "modal-" + key); });
+      mask.hidden = false;
+      document.body.style.overflow = "hidden";
+    }
+    function closeModal() {
+      mask.hidden = true;
+      document.body.style.overflow = "";
+    }
+    document.querySelectorAll("[data-modal]").forEach(function (btn) {
+      btn.addEventListener("click", function (e) {
+        e.preventDefault();
+        openModal(btn.getAttribute("data-modal"));
+      });
+    });
+    mask.querySelector(".modal-close").addEventListener("click", closeModal);
+    mask.addEventListener("click", function (e) { if (e.target === mask) closeModal(); });
+    document.addEventListener("keydown", function (e) { if (e.key === "Escape") closeModal(); });
+  }
+
   // 手机端悬浮导航按钮（右下角 FAB）
   var fab = document.createElement("div");
   fab.className = "fab-nav";

@@ -44,9 +44,14 @@
   </div>
 </header>
 
-<!-- 首屏：攸县山水全屏背景 -->
+<!-- 首屏：攸县山水四季轮播背景 -->
 <section class="hero">
-  <div class="hero-bg"></div>
+  <div class="hero-bg">
+    <img class="hero-slide on" src="images/hero-spring.jpg" alt="春 · 攸县山水">
+    <img class="hero-slide" src="images/hero-summer.jpg" loading="lazy" alt="夏 · 攸县山水">
+    <img class="hero-slide" src="images/hero-autumn.jpg" loading="lazy" alt="秋 · 攸县山水">
+    <img class="hero-slide" src="images/hero-winter.jpg" loading="lazy" alt="冬 · 攸县山水">
+  </div>
   <div class="hero-inner">
     <div class="hero-eyebrow">2013 — 2026　·　在粤攸商之家</div>
     <h1>抱团取暖　<em>共谋发展</em></h1>
@@ -106,6 +111,7 @@
       <h2>商会动态</h2>
       <div class="rule"></div>
       <p class="sub">来自商会微信公众号的最新活动与通知，记录在粤攸商的每一步。</p>
+      <a class="head-more" href="news.html">更多资讯 →</a>
     </div>
     <div class="news-grid" id="news-grid"></div>
     <div class="news-more-link">
@@ -185,8 +191,9 @@
           <span><b>礼盒定制</b> · 攸州有礼随手礼</span>
         </div>
         <div class="mall-actions">
-          <a class="btn btn-red" href="http://www.zyyous.com/" target="_blank" rel="noopener">进入商城 →</a>
-          <a class="btn btn-outline-red" href="#contact">扫码直接购</a>
+          <a class="btn btn-red" href="mall.html">进入商城栏目 →</a>
+          <button class="btn btn-outline" type="button" data-modal="qr">扫码直接购</button>
+          <button class="btn btn-gold" type="button" data-modal="phone">合作入驻</button>
         </div>
       </div>
       <div class="mall-shot overlap">
@@ -338,6 +345,24 @@
 </footer>
 
 <button id="back-top" aria-label="返回顶部">↑</button>
+
+<!-- 商城弹窗：扫码直接购 / 合作入驻 -->
+<div class="modal-mask" id="modal-mask" hidden>
+  <div class="modal-box" role="dialog" aria-modal="true">
+    <button class="modal-close" type="button" aria-label="关闭">✕</button>
+    <div class="modal-view" id="modal-qr" hidden>
+      <h3>微信扫码 · 直接进入商城</h3>
+      <img src="images/qrcode-mall.jpg" alt="大攸商商城小程序码">
+      <p>使用微信扫一扫，随时随地选购攸县好物</p>
+    </div>
+    <div class="modal-view" id="modal-phone" hidden>
+      <h3>商城合作入驻</h3>
+      <div class="modal-phone-icon">📞</div>
+      <a class="modal-phone-num" href="tel:15322271848">153 2227 1848</a>
+      <p>产品入驻 · 渠道合作 · 礼盒定制<br>欢迎致电商会秘书处洽谈</p>
+    </div>
+  </div>
+</div>
 
 <script src="js/articles.js"></script>
 <script src="js/main.js"></script>
