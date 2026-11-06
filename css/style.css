@@ -537,6 +537,22 @@ ul { list-style: none; }
 .footer-tech a { color: #f2e7d8; font-weight: 600; border-bottom: 1px dashed rgba(242,231,216,.5); }
 .footer-tech a:hover { color: var(--gold); }
 
+/* ===== 友情链接 ===== */
+.friend-links {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 6px 26px;
+  margin-top: 30px;
+  padding: 16px 0 4px;
+  border-top: 1px solid rgba(255,255,255,.1);
+  font-size: 13px;
+}
+.friend-links .fl-label { color: #8fa0bd; letter-spacing: 1px; }
+.friend-links a { color: #cfd8e8; transition: color .2s; }
+.friend-links a:hover { color: var(--gold); }
+
 /* ===== 内页 ===== */
 .page-hero {
   color: #fff;
@@ -604,6 +620,14 @@ ul { list-style: none; }
   .platform-band { flex-direction: column; text-align: center; padding: 38px 26px; }
   .platform-band .tags { justify-content: center; }
   .main-nav { display: none; }
-  .footer-grid { grid-template-columns: 1fr 1fr; }
+  .footer-grid { grid-template-columns: 1fr; }
+  .footer-brand { justify-content: center; text-align: center; }
+  .footer-brand p { white-space: normal; }
+  .footer-qr { align-items: center; }
+  /* 手机端商城叠图：按视口宽度缩放，保持一行层叠 */
+  .mall-shot.overlap { flex-wrap: nowrap; }
+  .mall-shot.overlap .phone-frame { width: 28vw; border-width: 5px; }
+  .mall-shot.overlap .phone-frame:nth-child(1) { margin-right: -5vw; }
+  .mall-shot.overlap .phone-frame:nth-child(3) { margin-left: -5vw; }
   .article-body { padding: 26px 22px; }
 }
