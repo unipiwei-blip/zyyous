@@ -91,4 +91,37 @@
       window.scrollTo({ top: 0, behavior: "smooth" });
     });
   }
+
+  // 手机端悬浮导航按钮（右下角 FAB）
+  var fab = document.createElement("div");
+  fab.className = "fab-nav";
+  var fabLinks = [
+    ["index.html", "首页"],
+    ["about.html", "商会概况"],
+    ["news.html", "新闻资讯"],
+    ["services.html", "会员服务"],
+    ["mall.html", "大攸商商城"],
+    ["contact.html", "联系我们"],
+    ["about.html#join", "申请入会"]
+  ];
+  fab.innerHTML =
+    '<div class="fab-menu">' +
+      fabLinks.map(function (l) { return '<a href="' + l[0] + '">' + l[1] + "</a>"; }).join("") +
+    "</div>" +
+    '<button class="fab-btn" aria-label="打开站内导航">☰</button>';
+  document.body.appendChild(fab);
+  var fabBtn = fab.querySelector(".fab-btn");
+  fabBtn.addEventListener("click", function () {
+    fab.classList.toggle("open");
+    fabBtn.textContent = fab.classList.contains("open") ? "✕" : "☰";
+  });
+  var curPage = window.location.pathname.split("/").pop() || "index.html";
+  fab.querySelectorAll(".fab-menu a").forEach(function (a) {
+    var h = a.getAttribute("href");
+    if (h === curPage || (h === "index.html" && curPage === "")) a.classList.add("active");
+    a.addEventListener("click", function () {
+      fab.classList.remove("open");
+      fabBtn.textContent = "☰";
+    });
+  });
 })();

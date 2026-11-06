@@ -10,7 +10,8 @@
 <meta property="og:title" content="大攸商商城 - 广东省湖南攸县商会">
 <meta property="og:description" content="商会唯一官方线上商城，攸县特产一键直达。微信扫码进入小程序。">
 <meta property="og:image" content="images/mall-shot-home.jpg">
-<link rel="icon" href="images/chamber-logo-sm.png">
+<link rel="icon" href="favicon.ico" sizes="any">
+<link rel="apple-touch-icon" href="images/apple-touch-icon.png">
 <link rel="canonical" href="https://www.zyyous.com/mall.html">
 <link rel="stylesheet" href="css/style.css">
 <style>
@@ -35,6 +36,17 @@
   .origin-list p { color: var(--ink-soft); font-size: 14px; }
   .product-tags { display:flex; flex-wrap:wrap; gap:10px; justify-content:center; margin-top: 28px; }
   .product-tags span { background:#fff; border:1px solid var(--line); border-radius:999px; padding:8px 20px; font-size:14px; color:var(--ink); }
+  @media (max-width: 960px) {
+    .mall-intro { grid-template-columns: 1fr; gap: 34px; }
+    .mall-intro .mall-info { text-align: center; }
+    .mall-intro .mall-info p { text-align: justify; }
+    .mall-actions { justify-content: center; }
+    .origin-list { max-width: 420px; margin: 0 auto; }
+    .origin-list li { text-align: left; }
+    .mall-qr-card { padding: 28px 20px; max-width: 420px; margin: 0 auto; }
+    .mall-qr-card img { width: 180px; height: 180px; }
+    .mall-shot .phone-frame { width: 62vw; max-width: 300px; }
+  }
 </style>
 </head>
 <body>
@@ -91,7 +103,7 @@
       </div>
       <div class="mall-qr-card">
         <span class="qr-badge shop">微信小程序</span>
-        <img src="images/qrcode-mall.jpg" alt="大攸商商城小程序码">
+        <img loading="lazy" src="images/qrcode-mall.jpg" alt="大攸商商城小程序码">
         <h3>大攸商商城</h3>
         <p>微信扫码，随时随地选购攸县好物</p>
         <a class="btn btn-blue" style="padding:10px 26px;font-size:14px" href="http://www.zyyous.com/" target="_blank" rel="noopener">网页版商城入口</a>
@@ -106,15 +118,15 @@
     </div>
     <div class="mall-shot">
       <div class="phone-frame">
-        <img src="images/mall-shot-home.jpg" alt="大攸商商城首页">
+        <img loading="lazy" src="images/mall-shot-home.jpg" alt="大攸商商城首页">
         <span class="cap">商城首页 · 攸县麻鸭爆款单品</span>
       </div>
       <div class="phone-frame">
-        <img src="images/mall-shot-libox.jpg" alt="攸州印象礼盒商品页">
+        <img loading="lazy" src="images/mall-shot-libox.jpg" alt="攸州印象礼盒商品页">
         <span class="cap">攸州印象礼盒 · 六种家乡味 ¥198</span>
       </div>
       <div class="phone-frame">
-        <img src="images/mall-shot-giftbox.jpg" alt="攸县随手礼盒商品页">
+        <img loading="lazy" src="images/mall-shot-giftbox.jpg" alt="攸县随手礼盒商品页">
         <span class="cap">随手礼盒 · 走亲访友伴手礼 ¥298</span>
       </div>
     </div>
@@ -160,7 +172,7 @@
       <div>
         <h4>关注商会</h4>
         <div class="footer-qr">
-          <img src="images/qrcode-weixin.jpg" alt="商会微信公众号二维码">
+          <img loading="lazy" src="images/qrcode-weixin.jpg" alt="商会微信公众号二维码">
           <div class="txt">
             <b>微信公众号「在粤攸商」</b>
             微信扫码关注<br>获取商会最新动态
@@ -178,7 +190,7 @@
     <div class="footer-tech">
       <span>网站技术服务支持：</span>
       <a href="https://www.gdiis.com" target="_blank" rel="noopener">
-        <img src="images/gdiis-logo.png" alt="创享互联 GDIIS" style="height:34px;display:inline-block;vertical-align:middle">
+        <img loading="lazy" src="images/gdiis-logo.png" alt="创享互联 GDIIS" style="height:34px;display:inline-block;vertical-align:middle">
         GDIIS · 创享互联
       </a>
     </div>
