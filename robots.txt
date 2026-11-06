@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /tmp_img/
+
+Sitemap: https://www.zyyous.com/sitemap.xml
