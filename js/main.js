@@ -6,11 +6,14 @@
   }
   function shortDate(d) { return d.replace(/-/g, "."); }
 
+  // 文章页地址（静态页优先，利于搜索引擎收录）
+  function articleURL(a) { return "article/" + a.id + ".html"; }
+
   // 新闻卡片（文字居中、等高）
   function cardHTML(a) {
     var shortTitle = a.title.length > 26 ? a.title.slice(0, 26) + "…" : a.title;
     return (
-      '<a class="news-card" href="article.html?id=' + a.id + '">' +
+      '<a class="news-card" href="' + articleURL(a) + '">' +
         '<div class="news-cover ' + a.cover + '">' +
           '<span class="date">' + shortDate(a.date) + '</span>' +
           '<span>' + shortTitle + '</span>' +
@@ -31,10 +34,38 @@
     homeGrid.innerHTML = ARTICLES.slice(0, 3).map(cardHTML).join("");
   }
 
-  // 资讯列表页（最新 8 篇及以上）
+  // 资讯列表页（分页：每页 3 行 × 3 列 = 9 篇）
   var listGrid = document.getElementById("article-list");
-  if (listGrid && typeof ARTICLES !== "undefined") {
-    listGrid.innerHTML = ARTICLES.map(cardHTML).join("");
+  var pageNav = document.getElementById("page-nav");
+  if (listGrid && pageNav && typeof ARTICLES !== "undefined") {
+    var PAGE_SIZE = 9;
+    var totalPages = Math.ceil(ARTICLES.length / PAGE_SIZE);
+    function curPage() {
+      var m = window.location.hash.match(/page-(\d+)/);
+      var p = m ? parseInt(m[1], 10) : 1;
+      return Math.min(Math.max(p, 1), totalPages);
+    }
+    function renderPage() {
+      var p = curPage();
+      var items = ARTICLES.slice((p - 1) * PAGE_SIZE, p * PAGE_SIZE);
+      listGrid.innerHTML = items.map(cardHTML).join("");
+      var buf = '<button class="pg-btn" data-p="' + (p - 1) + '"' + (p === 1 ? " disabled" : "") + '>上一页</button>';
+      for (var i = 1; i <= totalPages; i++) {
+        buf += '<button class="pg-btn num' + (i === p ? " on" : "") + '" data-p="' + i + '">' + i + "</button>";
+      }
+      buf += '<button class="pg-btn" data-p="' + (p + 1) + '"' + (p === totalPages ? " disabled" : "") + '>下一页</button>';
+      pageNav.innerHTML = buf;
+      pageNav.querySelectorAll(".pg-btn").forEach(function (btn) {
+        btn.addEventListener("click", function () {
+          var t = parseInt(btn.getAttribute("data-p"), 10);
+          if (t < 1 || t > totalPages || t === curPage()) return;
+          window.location.hash = "page-" + t;
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        });
+      });
+    }
+    window.addEventListener("hashchange", renderPage);
+    renderPage();
   }
 
   // 文章详情页
