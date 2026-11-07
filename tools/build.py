@@ -613,7 +613,7 @@ TPL_HEAD = """<!DOCTYPE html>
   </div>
 {source_box}
   <div style="text-align:center;margin-top:36px">
-    <a class="btn btn-outline" href="../news.html">← 返回资讯列表</a>
+    <a class="btn btn-outline-red" href="../news.html">← 返回资讯列表</a>
   </div>
 </div>
 
