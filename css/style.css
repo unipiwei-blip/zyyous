@@ -483,11 +483,11 @@ ul { list-style: none; }
   color: #aeb9d0;
   padding: 52px 0 0;
 }
-.footer-grid { display: grid; grid-template-columns: 1.3fr 1fr 1fr 1.1fr; gap: 36px; padding-bottom: 34px; align-items: start; }
+.footer-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 36px; padding-bottom: 34px; align-items: start; justify-items: center; text-align: center; }
 .site-footer h4 { color: #f2e7d8; font-size: 15px; letter-spacing: 2px; margin-bottom: 14px; }
 .site-footer p, .site-footer li { font-size: 13.5px; line-height: 2; }
 .site-footer a:hover { color: var(--gold); }
-.footer-brand { display: flex; align-items: center; gap: 14px; margin-bottom: 16px; }
+.footer-brand { display: flex; align-items: center; justify-content: center; gap: 14px; margin-bottom: 16px; }
 .footer-brand p { white-space: nowrap; }
 .footer-brand img {
   width: 62px; height: 62px;
@@ -633,7 +633,12 @@ ul { list-style: none; }
   .footer-qr { align-items: center; }
   .join-steps { grid-template-columns: 1fr 1fr; }
   .join-steps .svc-card:last-child { grid-column: 1 / -1; }
-  #back-top { right: 22px; bottom: 96px; }
+  #back-top { right: 22px; bottom: 24px; }
+  .header-inner { height: 58px; }
+  .logo-img { width: 40px; height: 40px; }
+  .logo-text b { font-size: 14px; }
+  .logo-text span { font-size: 9px; }
+  .header-cta { padding: 7px 13px; font-size: 13px; white-space: nowrap; flex-shrink: 0; }
   /* 手机端商城叠图：按视口宽度缩放，保持一行层叠 */
   .mall-shot.overlap { flex-wrap: nowrap; }
   .mall-shot.overlap .phone-frame { width: 28vw; border-width: 5px; }
@@ -648,8 +653,8 @@ ul { list-style: none; }
     display: block;
     position: fixed;
     right: 16px;
-    bottom: 24px;
-    z-index: 98;
+    bottom: 92px;
+    z-index: 100;
   }
   .fab-btn {
     width: 52px; height: 52px;
