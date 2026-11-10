@@ -162,13 +162,13 @@
   var fab = document.createElement("div");
   fab.className = "fab-nav";
   var fabLinks = [
-    ["index.html", "首页"],
-    ["about.html", "商会概况"],
-    ["news.html", "新闻资讯"],
-    ["services.html", "会员服务"],
-    ["mall.html", "大攸商商城"],
-    ["contact.html", "联系我们"],
-    ["about.html#join", "申请入会"]
+    ["/index.html", "首页"],
+    ["/about.html", "商会概况"],
+    ["/news.html", "新闻资讯"],
+    ["/services.html", "会员服务"],
+    ["/mall.html", "大攸商商城"],
+    ["/contact.html", "联系我们"],
+    ["/about.html#join", "申请入会"]
   ];
   fab.innerHTML =
     '<div class="fab-menu">' +
@@ -181,10 +181,10 @@
     fab.classList.toggle("open");
     fabBtn.textContent = fab.classList.contains("open") ? "✕" : "☰";
   });
-  var curPage = window.location.pathname.split("/").pop() || "index.html";
+  var curPage = window.location.pathname;
   fab.querySelectorAll(".fab-menu a").forEach(function (a) {
-    var h = a.getAttribute("href");
-    if (h === curPage || (h === "index.html" && curPage === "")) a.classList.add("active");
+    var h = a.getAttribute("href").split("#")[0];
+    if (h === curPage || (h === "/index.html" && curPage === "/")) a.classList.add("active");
     a.addEventListener("click", function () {
       fab.classList.remove("open");
       fabBtn.textContent = "☰";
