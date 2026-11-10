@@ -803,3 +803,21 @@ ul { list-style: none; }
 .pg-btn:hover:not(:disabled) { border-color: var(--red); color: var(--red); }
 .pg-btn.num.on { background: var(--red); border-color: var(--red); color: #fff; font-weight: 600; }
 .pg-btn:disabled { opacity: .4; cursor: not-allowed; }
+
+/* ===== 文章正文配图 ===== */
+.article-body img {
+  display: block;
+  width: 100%;
+  border-radius: 12px;
+  margin: 10px 0 20px;
+  box-shadow: var(--shadow);
+}
+
+/* ===== 文章正文配图 ===== */
+.article-body img {
+  display: block;
+  width: 100%;
+  border-radius: 12px;
+  margin: 10px 0 20px;
+  box-shadow: var(--shadow);
+}
