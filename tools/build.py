@@ -685,7 +685,6 @@ TPL_HEAD = """<!DOCTYPE html>
         <h4>联系方式</h4>
         <ul>
           <li>电话：153 2227 1848</li>
-          <li>总机：020-87239591</li>
           <li>邮箱：1517936347@qq.com</li>
           <li>网址：www.zyyous.com</li>
         </ul>
