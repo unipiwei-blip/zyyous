@@ -17,6 +17,19 @@ def P(t):  # 正文段落
 # ============ 文章数据（新文章插在最前面） ============
 ARTICLES = [
   # ---------------- 2026-11 新增 ----------------
+  dict(id="google-index-2026", date="2026-11-11", tag="公告通知", cover="cover-1",
+    title="广东省湖南攸县商会官网完成优化升级 已获谷歌搜索引擎收录",
+    summary="广东省湖南攸县商会官方网站 www.zyyous.com 完成内容与访问体验优化，已被谷歌（Google）搜索引擎收录。检索商会全称或官网域名，即可查阅商会概况、新闻资讯、会员服务、大攸商商城与历年商会动态等公开资讯。",
+    extraKw="广东省湖南攸县商会官网,商会官网,谷歌收录,Google收录,www.zyyous.com,商会新闻资讯",
+    body="".join([
+      P("近日，广东省湖南攸县商会官方网站（www.zyyous.com）完成内容整理与访问体验优化，并按规范完善站点地图与页面信息，现已获谷歌（Google）搜索引擎收录。检索“广东省湖南攸县商会”或官网域名，首页、商会概况、新闻资讯、会员服务及历年商会动态文章等页面均可在搜索结果中查阅。"),
+      P('<img src="images/news/google-index-2026-1.jpg" alt="谷歌搜索结果中的广东省湖南攸县商会官网" loading="lazy">'),
+      P("官网集中呈现商会简介、办会理念、发展历程、入会指南、会费标准、会员服务、大攸商商城与秘书处联系方式等公开资讯。新闻资讯按年度整理商会重要活动、走访交流、公益慈善与会员服务动态，方便会员企业、海内外攸县乡友及社会各界了解商会工作。"),
+      P('<img src="images/news/google-index-2026-2.jpg" alt="谷歌收录的商会新闻资讯与文章页面" loading="lazy">'),
+      P("广东省湖南攸县商会成立于2013年10月，是攸县历史上第一家异地商会，由攸县籍人士在粤投资注册登记的企业自愿组成，登记管理机关为广东省民政厅。商会秉承“德勤赢利，诚信天下”的攸商精神，坚持全心全意为会员服务，致力于联结粤湘两地、服务会员企业、反哺家乡建设。"),
+      P("官网已成为商会对外发布资讯、展示会员风采、发布服务信息的重要窗口。商会将持续更新工作动态与公开资讯，让更多在粤攸商、家乡父老与社会各界及时听见商会声音、看见攸商力量。"),
+    ])),
+
   dict(id="thomas-2026", date="2026-11-09", tag="会员走访", cover="cover-2",
     title="五金筑基强实业，智厨破局启新程——商会走访会员单位东莞市托马斯五金制品有限公司",
     summary="11月9日下午，广东省湖南攸县商会会长张成建率商会成员一行10人，走进东莞市托马斯五金制品有限公司实地走访调研，观摩精密五金制造车间与三大系列智能炒菜机器人，围绕产品迭代、渠道拓展与供应链优化座谈交流。",
@@ -637,7 +650,7 @@ TPL_HEAD = """<!DOCTYPE html>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>{title} - 广东省湖南攸县商会</title>
 <meta name="description" content="{desc}">
-<meta name="keywords" content="广东省湖南攸县商会,在粤攸商,{tag},攸县,商会新闻">
+<meta name="keywords" content="广东省湖南攸县商会,在粤攸商,{tag},攸县,商会新闻{extraKw}">
 <meta name="applicable-device" content="pc,mobile">
 <meta http-equiv="Cache-Control" content="no-transform">
 <meta property="og:type" content="article">
@@ -789,6 +802,7 @@ def gen_static_pages():
             title=html.escape(a["title"]),
             desc=html.escape(a["summary"]),
             tag=a["tag"], aid=a["id"], date=a["date"], ogimg=ogimg,
+            extraKw=("," + a["extraKw"]) if a.get("extraKw") else "",
             meta_line=a["tag"] + " · " + fmt_date(a["date"]),
             body=a["body"].replace('src="images/', 'src="../images/'),
             source_box=source_box)
