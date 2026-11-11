@@ -7,7 +7,7 @@
   3. 生成 sitemap.xml（含全部页面与文章页，新增页面时同步更新本文件数据即可）
 后续新增文章：在 ARTICLES 列表最前面加一条，重跑本脚本，git push 即可。
 """
-import json, os, io, html
+import json, os, io, html, re
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -609,7 +609,7 @@ TPL_HEAD = """<!DOCTYPE html>
 <meta property="og:title" content="{title}">
 <meta property="og:description" content="{desc}">
 <meta property="og:site_name" content="广东省湖南攸县商会">
-<meta property="og:image" content="https://www.zyyous.com/{cover}">
+<meta property="og:image" content="https://www.zyyous.com/{ogimg}">
 <meta property="og:url" content="https://www.zyyous.com/article/{aid}.html">
 <link rel="canonical" href="https://www.zyyous.com/article/{aid}.html">
 <link rel="icon" href="../favicon.ico" sizes="any">
@@ -746,10 +746,13 @@ def gen_static_pages():
         if a.get("sourceUrl"):
             src_html += '　<a href="' + a["sourceUrl"] + '" target="_blank" rel="noopener">查看原文链接 →</a>'
         source_box = ('<div class="article-source">' + src_html + "</div>") if src_html else ""
+        # og:image：取正文第一张实拍图，取不到用首页背景图兜底
+        m = re.search(r'src="images/([^"]+)"', a["body"])
+        ogimg = "images/" + m.group(1) if m else "images/hero-bg.jpg"
         page = TPL_HEAD.format(
             title=html.escape(a["title"]),
             desc=html.escape(a["summary"]),
-            tag=a["tag"], aid=a["id"], date=a["date"], cover=a["cover"],
+            tag=a["tag"], aid=a["id"], date=a["date"], ogimg=ogimg,
             meta_line=a["tag"] + " · " + fmt_date(a["date"]),
             body=a["body"].replace('src="images/', 'src="../images/'),
             source_box=source_box)
