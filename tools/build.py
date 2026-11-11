@@ -609,6 +609,8 @@ TPL_HEAD = """<!DOCTYPE html>
 <meta property="og:title" content="{title}">
 <meta property="og:description" content="{desc}">
 <meta property="og:site_name" content="广东省湖南攸县商会">
+<meta property="og:image" content="https://www.zyyous.com/{cover}">
+<meta property="og:url" content="https://www.zyyous.com/article/{aid}.html">
 <link rel="canonical" href="https://www.zyyous.com/article/{aid}.html">
 <link rel="icon" href="../favicon.ico" sizes="any">
 <link rel="apple-touch-icon" href="../images/apple-touch-icon.png">
@@ -747,7 +749,7 @@ def gen_static_pages():
         page = TPL_HEAD.format(
             title=html.escape(a["title"]),
             desc=html.escape(a["summary"]),
-            tag=a["tag"], aid=a["id"], date=a["date"],
+            tag=a["tag"], aid=a["id"], date=a["date"], cover=a["cover"],
             meta_line=a["tag"] + " · " + fmt_date(a["date"]),
             body=a["body"].replace('src="images/', 'src="../images/'),
             source_box=source_box)
