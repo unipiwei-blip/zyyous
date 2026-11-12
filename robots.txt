@@ -1,5 +1,31 @@
+# 广东省湖南攸县商会官网 www.zyyous.com
+# 404.html 为自定义错误页，请勿 Disallow；不存在的 URL 由 GitHub Pages 返回 404 状态码
+
 User-agent: *
 Allow: /
+Allow: /images/
+Allow: /css/
+Allow: /js/
+Allow: /assets/
+Disallow: /tools/
+Disallow: /generated-images/
 Disallow: /tmp_img/
 
+User-agent: Baiduspider
+Allow: /
+Allow: /images/
+Allow: /css/
+Allow: /js/
+Allow: /assets/
+Disallow: /tools/
+
+User-agent: Googlebot
+Allow: /
+Allow: /images/
+Allow: /css/
+Allow: /js/
+Allow: /assets/
+Disallow: /tools/
+
+Host: www.zyyous.com
 Sitemap: https://www.zyyous.com/sitemap.xml

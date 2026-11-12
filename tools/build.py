@@ -730,6 +730,7 @@ TPL_HEAD = """<!DOCTYPE html>
           <li><a href="../services.html">会员服务</a></li>
           <li><a href="../mall.html">大攸商商城</a></li>
           <li><a href="../contact.html">联系我们</a></li>
+          <li><a href="../sitemap.html">网站地图</a></li>
         </ul>
       </div>
       <div>
@@ -757,6 +758,9 @@ TPL_HEAD = """<!DOCTYPE html>
       <a href="https://www.gdcye.com" target="_blank" rel="noopener">云邦美站</a>
       <a href="https://mp.uccu.com.cn" target="_blank" rel="noopener">UCCU小程序平台</a>
       <a href="http://www.hzie.com.cn" target="_blank" rel="noopener">惠州市工程师学会</a>
+      <a href="https://www.gosite.com.cn/" target="_blank" rel="noopener">AI建站-跨境极站</a>
+      <a href="https://www.guancu.com/" target="_blank" rel="noopener">莞促集团</a>
+      <a href="https://www.ichangping.cn/" target="_blank" rel="noopener">东莞市常平个体私营企业协会</a>
     </div>
     <div class="footer-tech">
       <span>网站技术服务支持：</span>
@@ -811,6 +815,182 @@ def gen_static_pages():
         count += 1
     return count
 
+# ============ 生成 404.html 与 sitemap.html ============
+# 页脚直接取自首页，保证友情链接、导航入口全站同步
+def site_footer(abs_paths=False):
+    t = io.open(os.path.join(ROOT, "index.html"), encoding="utf-8").read()
+    frag = re.search(r'<footer class="site-footer">.*?</footer>', t, re.S).group(0)
+    if abs_paths:
+        # 404 页可能在任意路径下被打开，站内链接与资源一律改成根相对
+        frag = re.sub(r'(href|src)="(?!https?://|/|#|mailto:|data:)([^"]+)"', r'\1="/\2"', frag)
+    return frag
+
+TPL_404 = """<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>页面不存在 - 广东省湖南攸县商会</title>
+<meta name="description" content="您访问的页面不存在，可返回广东省湖南攸县商会官网首页，或浏览网站地图、商会概况、新闻资讯等栏目。">
+<meta name="keywords" content="广东省湖南攸县商会,页面不存在,网站地图">
+<meta name="robots" content="noindex,follow">
+<meta name="applicable-device" content="pc,mobile">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+<link rel="stylesheet" href="/css/style.css">
+<style>
+  .err-wrap { max-width: 760px; margin: 0 auto; padding: 76px 24px 90px; text-align: center; }
+  .err-code { font-size: 108px; font-weight: 800; letter-spacing: 8px; line-height: 1; color: var(--red); }
+  .err-wrap h1 { font-size: 24px; letter-spacing: 1px; margin: 20px 0 12px; }
+  .err-wrap p { color: var(--ink-soft); font-size: 15px; line-height: 1.9; margin-bottom: 30px; }
+  .err-actions { display: flex; justify-content: center; flex-wrap: wrap; gap: 14px; margin-bottom: 30px; }
+  .err-nav { display: flex; justify-content: center; flex-wrap: wrap; gap: 10px 24px; font-size: 14px; }
+  .err-nav a { color: var(--red); font-weight: 600; }
+  .err-nav a:hover { text-decoration: underline; }
+  @media (max-width: 600px) {
+    .err-wrap { padding: 54px 20px 72px; }
+    .err-code { font-size: 78px; }
+    .err-wrap h1 { font-size: 20px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="announce-bar">商会宗旨：全心全意为会员服务　|　攸商精神：德勤赢利，诚信天下　|　商会电话：153 2227 1848</div>
+
+<header class="site-header">
+  <div class="container header-inner">
+    <a class="logo" href="/index.html">
+      <img class="logo-img" src="/images/chamber-logo-sm.png" alt="广东省湖南攸县商会会徽">
+      <div class="logo-text">
+        <b>广东省湖南攸县商会</b>
+        <span>HUNAN YOUXIAN CHAMBER OF COMMERCE IN GUANGDONG</span>
+      </div>
+    </a>
+    <a class="header-cta" href="/index.html">返回官网首页</a>
+  </div>
+</header>
+
+<main class="err-wrap">
+  <div class="err-code">404</div>
+  <h1>抱歉，您访问的页面不存在</h1>
+  <p>页面可能已调整或地址有误。您可以返回官网首页，或从网站地图及下列栏目继续浏览商会公开资讯。</p>
+  <div class="err-actions">
+    <a class="btn btn-red" href="/index.html">返回官网首页</a>
+    <a class="btn btn-outline-red" href="/sitemap.html">查看网站地图</a>
+  </div>
+  <div class="err-nav">
+    <a href="/about.html">商会概况</a>
+    <a href="/news.html">新闻资讯</a>
+    <a href="/services.html">会员服务</a>
+    <a href="/mall.html">大攸商商城</a>
+    <a href="/contact.html">联系我们</a>
+  </div>
+</main>
+
+@@FOOTER@@
+
+</body>
+</html>
+"""
+
+def gen_404():
+    page = TPL_404.replace("@@FOOTER@@", site_footer(abs_paths=True))
+    with io.open(os.path.join(ROOT, "404.html"), "w", encoding="utf-8", newline="\n") as f:
+        f.write(page)
+
+TPL_SITEMAP = """<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>网站地图 - 广东省湖南攸县商会</title>
+<meta name="description" content="广东省湖南攸县商会官网网站地图：商会概况、新闻资讯、会员服务、大攸商商城、联系我们等栏目，以及2013年至今各年度商会动态文章索引。">
+<meta name="keywords" content="广东省湖南攸县商会,网站地图,站点地图,商会动态,新闻资讯,入会指南">
+<meta name="applicable-device" content="pc,mobile">
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta property="og:type" content="website">
+<meta property="og:title" content="网站地图 - 广东省湖南攸县商会">
+<meta property="og:description" content="广东省湖南攸县商会官网栏目与各年度商会动态文章索引。">
+<meta property="og:site_name" content="广东省湖南攸县商会">
+<meta property="og:image" content="https://www.zyyous.com/images/hero-bg.jpg">
+<meta property="og:url" content="https://www.zyyous.com/sitemap.html">
+<link rel="canonical" href="https://www.zyyous.com/sitemap.html">
+<link rel="icon" href="favicon.ico" sizes="any">
+<link rel="stylesheet" href="css/style.css">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"CollectionPage","name":"网站地图 - 广东省湖南攸县商会","url":"https://www.zyyous.com/sitemap.html","description":"广东省湖南攸县商会官网栏目与各年度商会动态文章索引。","publisher":{"@type":"Organization","name":"广东省湖南攸县商会","url":"https://www.zyyous.com/","telephone":"+86-15322271848","email":"1517936347@qq.com","address":{"@type":"PostalAddress","streetAddress":"广州市增城区新塘镇荔新大道12路奥园康威广场B3栋二楼","addressRegion":"广东省","addressCountry":"CN"},"contactPoint":{"@type":"ContactPoint","telephone":"+86-15322271848","contactType":"customer service","email":"1517936347@qq.com","areaServed":"CN","availableLanguage":"Chinese"}}}
+</script>
+<style>
+  .sm-wrap { max-width: 960px; margin: 0 auto; padding: 56px 24px 84px; text-align: center; }
+  .sm-wrap h1 { font-size: 30px; letter-spacing: 2px; margin-bottom: 10px; }
+  .sm-wrap .sub { color: var(--ink-soft); font-size: 14px; margin-bottom: 34px; }
+  .sm-pages { display: flex; justify-content: center; flex-wrap: wrap; gap: 12px; margin-bottom: 42px; }
+  .sm-pages a { border: 1px solid var(--line); background: #fff; border-radius: 999px; padding: 9px 22px; font-size: 14px; font-weight: 600; color: var(--ink); }
+  .sm-pages a:hover { border-color: var(--red); color: var(--red); }
+  .sm-years h3 { font-size: 18px; letter-spacing: 1px; color: var(--red); margin: 32px 0 12px; }
+  .sm-list li { padding: 8px 0; border-bottom: 1px dashed var(--line); font-size: 14.5px; }
+  .sm-list li a:hover { color: var(--red); }
+  .sm-list li span { display: block; font-size: 12px; color: var(--ink-soft); }
+  @media (max-width: 600px) { .sm-wrap { padding: 40px 20px 64px; } .sm-wrap h1 { font-size: 23px; } }
+</style>
+</head>
+<body>
+
+<img src="images/hero-bg.jpg" alt="" style="position:absolute;left:-9999px;top:0;width:300px;height:300px;object-fit:cover">
+<div class="announce-bar">商会宗旨：全心全意为会员服务　|　攸商精神：德勤赢利，诚信天下　|　商会电话：153 2227 1848</div>
+
+<header class="site-header">
+  <div class="container header-inner">
+    <a class="logo" href="index.html">
+      <img class="logo-img" src="images/chamber-logo-sm.png" alt="广东省湖南攸县商会会徽">
+      <div class="logo-text">
+        <b>广东省湖南攸县商会</b>
+        <span>HUNAN YOUXIAN CHAMBER OF COMMERCE IN GUANGDONG</span>
+      </div>
+    </a>
+    <a class="header-cta" href="about.html#join">申请入会</a>
+  </div>
+</header>
+
+<main class="sm-wrap">
+  <h1>网站地图</h1>
+  <p class="sub">广东省湖南攸县商会官网栏目与各年度商会动态文章索引</p>
+  <div class="sm-pages">
+@@PAGES@@
+  </div>
+  <div class="sm-years">
+@@YEARS@@
+  </div>
+</main>
+
+@@FOOTER@@
+
+<button id="back-top" aria-label="返回顶部">↑</button>
+<script src="js/main.js"></script>
+</body>
+</html>
+"""
+
+def gen_html_sitemap():
+    pages = [("index.html", "首页"), ("about.html", "商会概况"), ("news.html", "新闻资讯"),
+             ("services.html", "会员服务"), ("mall.html", "大攸商商城"),
+             ("contact.html", "联系我们"), ("sitemap.html", "网站地图")]
+    page_html = "\n".join('    <a href="%s">%s</a>' % (u, n) for u, n in pages)
+    years = {}
+    for a in ARTICLES:
+        years.setdefault(a["date"][:4], []).append(a)
+    sec = []
+    for y in sorted(years, reverse=True):
+        items = "\n".join('      <li><a href="article/%s.html">%s</a><span>%s</span></li>' %
+                          (a["id"], html.escape(a["title"]), a["date"]) for a in years[y])
+        sec.append("    <h3>%s 年 · %d 篇</h3>\n    <ul class=\"sm-list\">\n%s\n    </ul>" % (y, len(years[y]), items))
+    page = (TPL_SITEMAP.replace("@@PAGES@@", page_html)
+                       .replace("@@YEARS@@", "\n".join(sec))
+                       .replace("@@FOOTER@@", site_footer()))
+    with io.open(os.path.join(ROOT, "sitemap.html"), "w", encoding="utf-8", newline="\n") as f:
+        f.write(page)
+
 # ============ 生成 sitemap.xml ============
 SITEMAP_PAGES = [
     ("", "1.0", "daily"),
@@ -819,6 +999,7 @@ SITEMAP_PAGES = [
     ("services.html", "0.8", "monthly"),
     ("mall.html", "0.8", "weekly"),
     ("contact.html", "0.7", "monthly"),
+    ("sitemap.html", "0.5", "monthly"),
 ]
 
 def gen_sitemap(today):
@@ -839,5 +1020,7 @@ if __name__ == "__main__":
     today = datetime.date.today().isoformat()
     gen_js()
     n = gen_static_pages()
+    gen_404()
+    gen_html_sitemap()
     gen_sitemap(today)
-    print("articles:", len(ARTICLES), "| static pages:", n, "| sitemap updated", today)
+    print("articles:", len(ARTICLES), "| static pages:", n, "| 404 + html sitemap + sitemap.xml updated", today)
