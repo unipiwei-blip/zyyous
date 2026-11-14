@@ -826,3 +826,14 @@ ul { list-style: none; }
   margin: 10px 0 20px;
   box-shadow: var(--shadow);
 }
+
+/* ===== 微信分享方形缩略图（屏幕外，不影响可见布局） ===== */
+.wx-share-thumb {
+  position: absolute;
+  top: 0;
+  left: -9999px;
+  width: 300px;
+  height: 300px;
+  pointer-events: none;
+  z-index: -1;
+}

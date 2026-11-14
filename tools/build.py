@@ -8,6 +8,7 @@
 后续新增文章：在 ARTICLES 列表最前面加一条，重跑本脚本，git push 即可。
 """
 import json, os, io, html, re
+from PIL import Image
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -721,6 +722,54 @@ def gen_js():
     with io.open(os.path.join(ROOT, "js", "articles.js"), "w", encoding="utf-8", newline="\n") as f:
         f.write(out)
 
+# ============ 微信分享方形缩略图 ============
+SITE = "https://www.zyyous.com"
+SHARE_DIR = os.path.join("images", "share")
+
+def article_cover(a):
+    """该文章已有的题图（正文首张实拍图，无图时用首页背景图）"""
+    m = re.search(r'src="images/([^"]+)"', a["body"])
+    return "images/" + m.group(1) if m else "images/hero-bg.jpg"
+
+def share_file(a):
+    """按文章 ID 命名，保证每篇详情页对应一张独立方图（多篇文章共用题图时也不重名）"""
+    return "images/share/share-%s.jpg" % a["id"]
+
+def share_url(a):
+    return SITE + "/" + share_file(a)
+
+def short_desc(s):
+    """取描述前 60 字，并去掉结尾的逗号、句号、分号等标点"""
+    return re.sub(r'[，,。；;、：:！!？?．.\s]+$', '', s[:60])
+
+def gen_share_images():
+    """从已有题图中心裁切为 400x400 JPG，只做裁切缩放，不生成新画面"""
+    outdir = os.path.join(ROOT, SHARE_DIR)
+    os.makedirs(outdir, exist_ok=True)
+    keep = set()
+    sizes = []
+    for a in ARTICLES:
+        src = os.path.join(ROOT, article_cover(a))
+        dst = os.path.join(ROOT, share_file(a))
+        keep.add(os.path.basename(dst))
+        im = Image.open(src).convert("RGB")  # convert 会丢弃 EXIF
+        w, h = im.size
+        s = min(w, h)
+        im = im.crop(((w - s) // 2, (h - s) // 2, (w + s) // 2, (h + s) // 2))
+        im = im.resize((400, 400), Image.LANCZOS)
+        q = 85
+        while True:
+            im.save(dst, "JPEG", quality=q, optimize=True)  # 不写 exif
+            if os.path.getsize(dst) <= 100 * 1024 or q <= 65:
+                break
+            q -= 5
+        sizes.append(os.path.getsize(dst))
+    # 清掉不再对应任何文章的旧方图，保持「详情页数量 = 方图数量」
+    for fn in os.listdir(outdir):
+        if fn.endswith(".jpg") and fn not in keep:
+            os.remove(os.path.join(outdir, fn))
+    print("share images:", len(sizes), "| size range: %d-%d KB" % (min(sizes) // 1024, max(sizes) // 1024))
+
 # ============ 生成静态文章页 ============
 TPL_HEAD = """<!DOCTYPE html>
 <html lang="zh-CN">
@@ -734,10 +783,16 @@ TPL_HEAD = """<!DOCTYPE html>
 <meta http-equiv="Cache-Control" content="no-transform">
 <meta property="og:type" content="article">
 <meta property="og:title" content="{title}">
-<meta property="og:description" content="{desc}">
+<meta property="og:description" content="{short_desc}">
 <meta property="og:site_name" content="广东省湖南攸县商会">
-<meta property="og:image" content="https://www.zyyous.com/{ogimg}">
+<meta property="og:image" content="{share_url}">
+<meta property="og:image:width" content="400">
+<meta property="og:image:height" content="400">
 <meta property="og:url" content="https://www.zyyous.com/article/{aid}.html">
+<meta itemprop="name" content="{title}">
+<meta itemprop="description" content="{short_desc}">
+<meta itemprop="image" content="{share_url}">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="canonical" href="https://www.zyyous.com/article/{aid}.html">
 <link rel="icon" href="../favicon.ico" sizes="any">
 <link rel="apple-touch-icon" href="../images/apple-touch-icon.png">
@@ -747,8 +802,7 @@ TPL_HEAD = """<!DOCTYPE html>
 </script>
 </head>
 <body>
-
-<img src="../{ogimg}" alt="" style="position:absolute;left:-9999px;top:0;width:300px;height:300px;object-fit:cover">
+<img class="wx-share-thumb" src="{share_url}" alt="" width="300" height="300" aria-hidden="true">
 <div class="announce-bar">商会宗旨：全心全意为会员服务　|　攸商精神：德勤赢利，诚信天下　|　商会电话：153 2227 1848</div>
 
 <header class="site-header">
@@ -878,13 +932,12 @@ def gen_static_pages():
         if a.get("sourceUrl"):
             src_html += '　<a href="' + a["sourceUrl"] + '" target="_blank" rel="noopener">查看原文链接 →</a>'
         source_box = ('<div class="article-source">' + src_html + "</div>") if src_html else ""
-        # og:image：取正文第一张实拍图，取不到用首页背景图兜底
-        m = re.search(r'src="images/([^"]+)"', a["body"])
-        ogimg = "images/" + m.group(1) if m else "images/hero-bg.jpg"
         page = TPL_HEAD.format(
             title=html.escape(a["title"]),
             desc=html.escape(a["summary"]),
-            tag=a["tag"], aid=a["id"], date=a["date"], ogimg=ogimg,
+            short_desc=html.escape(short_desc(a["summary"])),
+            share_url=share_url(a),
+            tag=a["tag"], aid=a["id"], date=a["date"],
             extraKw=("," + a["extraKw"]) if a.get("extraKw") else "",
             meta_line=a["tag"] + " · " + fmt_date(a["date"]),
             body=a["body"].replace('src="images/', 'src="../images/'),
@@ -1098,6 +1151,7 @@ if __name__ == "__main__":
     import datetime
     today = datetime.date.today().isoformat()
     gen_js()
+    gen_share_images()
     n = gen_static_pages()
     gen_404()
     gen_html_sitemap()
