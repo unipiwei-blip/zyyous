@@ -722,53 +722,44 @@ def gen_js():
     with io.open(os.path.join(ROOT, "js", "articles.js"), "w", encoding="utf-8", newline="\n") as f:
         f.write(out)
 
-# ============ 微信分享方形缩略图 ============
+# ============ 微信分享方形缩略图（全站统一会徽） ============
 SITE = "https://www.zyyous.com"
 SHARE_DIR = os.path.join("images", "share")
-
-def article_cover(a):
-    """该文章已有的题图（正文首张实拍图，无图时用首页背景图）"""
-    m = re.search(r'src="images/([^"]+)"', a["body"])
-    return "images/" + m.group(1) if m else "images/hero-bg.jpg"
-
-def share_file(a):
-    """按文章 ID 命名，保证每篇详情页对应一张独立方图（多篇文章共用题图时也不重名）"""
-    return "images/share/share-%s.jpg" % a["id"]
+SHARE_LOGO_SRC = "images/chamber-logo.jpg"      # 商会会徽原图
+SHARE_FILE = "images/share/share-logo.jpg"      # 全站共用的方形分享图
+SHARE_URL = SITE + "/" + SHARE_FILE
 
 def share_url(a):
-    return SITE + "/" + share_file(a)
+    """全站分享缩略图固定使用商会会徽方图，不随文章变化"""
+    return SHARE_URL
 
 def short_desc(s):
     """取描述前 60 字，并去掉结尾的逗号、句号、分号等标点"""
     return re.sub(r'[，,。；;、：:！!？?．.\s]+$', '', s[:60])
 
-def gen_share_images():
-    """从已有题图中心裁切为 400x400 JPG，只做裁切缩放，不生成新画面"""
+def gen_share_image():
+    """把会徽原图裁切缩放为 400x400 JPG，只做裁切缩放，不生成新画面"""
     outdir = os.path.join(ROOT, SHARE_DIR)
     os.makedirs(outdir, exist_ok=True)
-    keep = set()
-    sizes = []
-    for a in ARTICLES:
-        src = os.path.join(ROOT, article_cover(a))
-        dst = os.path.join(ROOT, share_file(a))
-        keep.add(os.path.basename(dst))
-        im = Image.open(src).convert("RGB")  # convert 会丢弃 EXIF
-        w, h = im.size
-        s = min(w, h)
-        im = im.crop(((w - s) // 2, (h - s) // 2, (w + s) // 2, (h + s) // 2))
-        im = im.resize((400, 400), Image.LANCZOS)
-        q = 85
-        while True:
-            im.save(dst, "JPEG", quality=q, optimize=True)  # 不写 exif
-            if os.path.getsize(dst) <= 100 * 1024 or q <= 65:
-                break
-            q -= 5
-        sizes.append(os.path.getsize(dst))
-    # 清掉不再对应任何文章的旧方图，保持「详情页数量 = 方图数量」
+    src = os.path.join(ROOT, SHARE_LOGO_SRC)
+    dst = os.path.join(ROOT, SHARE_FILE)
+    im = Image.open(src).convert("RGB")  # convert 会丢弃 EXIF
+    w, h = im.size
+    s = min(w, h)
+    im = im.crop(((w - s) // 2, (h - s) // 2, (w + s) // 2, (h + s) // 2))
+    im = im.resize((400, 400), Image.LANCZOS)
+    q = 85
+    while True:
+        im.save(dst, "JPEG", quality=q, optimize=True)  # 不写 exif
+        if os.path.getsize(dst) <= 100 * 1024 or q <= 65:
+            break
+        q -= 5
+    # 清理旧的按文章生成的方图，只保留这一张固定图
+    keep = os.path.basename(dst)
     for fn in os.listdir(outdir):
-        if fn.endswith(".jpg") and fn not in keep:
+        if fn.endswith(".jpg") and fn != keep:
             os.remove(os.path.join(outdir, fn))
-    print("share images:", len(sizes), "| size range: %d-%d KB" % (min(sizes) // 1024, max(sizes) // 1024))
+    print("share image: %s | %d KB" % (SHARE_FILE, os.path.getsize(dst) // 1024))
 
 # ============ 生成静态文章页 ============
 TPL_HEAD = """<!DOCTYPE html>
@@ -1045,7 +1036,7 @@ TPL_SITEMAP = """<!DOCTYPE html>
 <meta property="og:title" content="网站地图 - 广东省湖南攸县商会">
 <meta property="og:description" content="广东省湖南攸县商会官网栏目与各年度商会动态文章索引。">
 <meta property="og:site_name" content="广东省湖南攸县商会">
-<meta property="og:image" content="https://www.zyyous.com/images/hero-bg.jpg">
+<meta property="og:image" content="https://www.zyyous.com/images/share/share-logo.jpg">
 <meta property="og:url" content="https://www.zyyous.com/sitemap.html">
 <link rel="canonical" href="https://www.zyyous.com/sitemap.html">
 <link rel="icon" href="favicon.ico" sizes="any">
@@ -1151,7 +1142,7 @@ if __name__ == "__main__":
     import datetime
     today = datetime.date.today().isoformat()
     gen_js()
-    gen_share_images()
+    gen_share_image()
     n = gen_static_pages()
     gen_404()
     gen_html_sitemap()
