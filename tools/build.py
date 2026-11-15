@@ -1098,7 +1098,8 @@ TPL_SITEMAP = """<!DOCTYPE html>
 def gen_html_sitemap():
     pages = [("index.html", "首页"), ("about.html", "商会概况"), ("news.html", "新闻资讯"),
              ("services.html", "会员服务"), ("mall.html", "大攸商商城"),
-             ("contact.html", "联系我们"), ("sitemap.html", "网站地图")]
+             ("contact.html", "联系我们"), ("sitemap.html", "网站地图"),
+             ("mp/index.html", "电子名片")]
     page_html = "\n".join('    <a href="%s">%s</a>' % (u, n) for u, n in pages)
     years = {}
     for a in ARTICLES:
@@ -1123,6 +1124,10 @@ SITEMAP_PAGES = [
     ("mall.html", "0.8", "weekly"),
     ("contact.html", "0.7", "monthly"),
     ("sitemap.html", "0.5", "monthly"),
+    ("mp/index.html", "0.5", "monthly"),
+    ("mp/zhangzewu/zhangzewu.html", "0.4", "monthly"),
+    ("mp/zhangchengjian/zhangchengjian.html", "0.4", "monthly"),
+    ("mp/caoyuhua/caoyuhua.html", "0.4", "monthly"),
 ]
 
 def gen_sitemap(today):
