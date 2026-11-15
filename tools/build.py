@@ -1128,6 +1128,7 @@ SITEMAP_PAGES = [
     ("mp/zhangzewu/zhangzewu.html", "0.4", "monthly"),
     ("mp/zhangchengjian/zhangchengjian.html", "0.4", "monthly"),
     ("mp/caoyuhua/caoyuhua.html", "0.4", "monthly"),
+    ("mp/huangjin/huangjin.html", "0.4", "monthly"),
 ]
 
 def gen_sitemap(today):
