@@ -787,7 +787,7 @@ TPL_HEAD = """<!DOCTYPE html>
 <link rel="canonical" href="https://www.zyyous.com/article/{aid}.html">
 <link rel="icon" href="../favicon.ico" sizes="any">
 <link rel="apple-touch-icon" href="../images/apple-touch-icon.png">
-<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="../css/style.css?v=20261117b">
 <script type="application/ld+json">
 {{"@context":"https://schema.org","@type":"NewsArticle","headline":"{title}","description":"{desc}","datePublished":"{date}","dateModified":"{date}","author":{{"@type":"Organization","name":"广东省湖南攸县商会"}},"publisher":{{"@type":"Organization","name":"广东省湖南攸县商会"}},"mainEntityOfPage":"https://www.zyyous.com/article/{aid}.html"}}
 </script>
@@ -963,7 +963,7 @@ TPL_404 = """<!DOCTYPE html>
 <meta name="applicable-device" content="pc,mobile">
 <link rel="icon" href="/favicon.ico" sizes="any">
 <link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
-<link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/css/style.css?v=20261117b">
 <style>
   .err-wrap { max-width: 760px; margin: 0 auto; padding: 76px 24px 90px; text-align: center; }
   .err-code { font-size: 108px; font-weight: 800; letter-spacing: 8px; line-height: 1; color: var(--red); }
@@ -1043,7 +1043,7 @@ TPL_SITEMAP = """<!DOCTYPE html>
 <meta property="og:url" content="https://www.zyyous.com/sitemap.html">
 <link rel="canonical" href="https://www.zyyous.com/sitemap.html">
 <link rel="icon" href="favicon.ico" sizes="any">
-<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/style.css?v=20261117b">
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"CollectionPage","name":"网站地图 - 广东省湖南攸县商会","url":"https://www.zyyous.com/sitemap.html","description":"广东省湖南攸县商会官网栏目与各年度商会动态文章索引。","publisher":{"@type":"Organization","name":"广东省湖南攸县商会","url":"https://www.zyyous.com/","telephone":"+86-15322271848","email":"1517936347@qq.com","address":{"@type":"PostalAddress","streetAddress":"广州市增城区新塘镇荔新大道12路奥园康威广场B3栋二楼","addressRegion":"广东省","addressCountry":"CN"},"contactPoint":{"@type":"ContactPoint","telephone":"+86-15322271848","contactType":"customer service","email":"1517936347@qq.com","areaServed":"CN","availableLanguage":"Chinese"}}}
 </script>

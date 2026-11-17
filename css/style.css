@@ -429,7 +429,7 @@ ul { list-style: none; }
 }
 
 /* ===== 关注我们（二维码） ===== */
-.qr-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 22px; }
+.qr-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 18px; }
 .qr-card {
   background: #fff;
   border: 1px solid var(--line);
@@ -462,6 +462,7 @@ ul { list-style: none; }
 .qr-badge.dy { background: var(--ink); }
 .qr-badge.col { background: var(--blue); }
 .qr-badge.shop { background: var(--red); }
+.qr-badge.sec { background: var(--gold); }
 
 /* ===== 联系我们 ===== */
 .contact-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
