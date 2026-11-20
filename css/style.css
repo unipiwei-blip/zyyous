@@ -580,13 +580,14 @@ ul { list-style: none; }
 .article-meta { text-align: center; color: var(--ink-soft); font-size: 14px; margin-bottom: 30px; }
 .article-meta b { display: block; font-size: 25px; color: var(--ink); letter-spacing: 1px; margin-bottom: 12px; line-height: 1.5; }
 .article-body { background: #fff; border-radius: var(--radius); padding: 40px 44px; box-shadow: var(--shadow); }
-.article-body p { margin-bottom: 18px; text-align: justify; color: #3c372f; font-size: 16px; }
+.article-body p { margin-bottom: 18px; text-align: justify; text-indent: 2em; color: #3c372f; font-size: 16px; }
 .article-body h2 {
   font-size: 19px;
   margin: 30px 0 14px;
   padding-left: 12px;
   border-left: 4px solid var(--red);
   letter-spacing: 1px;
+  text-indent: 2em;
 }
 .article-source {
   margin-top: 30px;
