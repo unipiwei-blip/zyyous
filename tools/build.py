@@ -766,6 +766,7 @@ TPL_HEAD = """<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
+<meta name="baidu-site-verification" content="codeva-2jbgbe4kHx">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>{title} - 广东省湖南攸县商会</title>
 <meta name="description" content="{desc}">
@@ -955,6 +956,7 @@ TPL_404 = """<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
+<meta name="baidu-site-verification" content="codeva-2jbgbe4kHx">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>页面不存在 - 广东省湖南攸县商会</title>
 <meta name="description" content="您访问的页面不存在，可返回广东省湖南攸县商会官网首页，或浏览网站地图、商会概况、新闻资讯等栏目。">
@@ -1029,6 +1031,7 @@ TPL_SITEMAP = """<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
+<meta name="baidu-site-verification" content="codeva-2jbgbe4kHx">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>网站地图 - 广东省湖南攸县商会</title>
 <meta name="description" content="广东省湖南攸县商会官网网站地图：商会概况、新闻资讯、会员服务、大攸商商城、联系我们等栏目，以及2013年至今各年度商会动态文章索引。">
